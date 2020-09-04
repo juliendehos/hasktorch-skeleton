@@ -1,10 +1,9 @@
 .ghc.environment*
 cabal.project.local
 cabal.project.freeze
-.stack-work/
 dist-newstyle/
 result*
 *.swp
-*.lock
-**/.DS_Store
 *.pt
+data/
+.direnv/
