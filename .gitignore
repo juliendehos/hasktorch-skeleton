@@ -6,5 +6,6 @@ dist-newstyle/
 result*
 *.swp
 *.lock
-**/.DS_Store
 *.pt
+*.html
+

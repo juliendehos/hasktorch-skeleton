@@ -10,7 +10,9 @@ sinc :: Floating a => a -> a
 sinc a = sin a / a
 
 noisySinc :: (Floating a, Random a, RandomGen g) => a -> a -> g -> (a, g)
-noisySinc eps a g = let (noise, g') = normal g in (sinc a + eps * noise, g')
+noisySinc eps a g =
+    let (noise, g') = normal g
+    in (sinc a + eps * noise, g')
 
 data SincData = SincData 
     { _name :: Text
@@ -19,9 +21,9 @@ data SincData = SincData
 
 mkSincData :: (RandomGen g, Monad m) => Text -> Int -> StateT g m SincData
 mkSincData name size =
-  let next = do
-        x <- (* 20) <$> state normal
-        y <- state (noisySinc 0.05 x)
-        pure (x, y)
-   in SincData name <$> replicateM size next
+    let next = do
+                x <- (* 10) <$> state normal
+                y <- state (noisySinc 0.02 x)
+                pure (x, y)
+    in SincData name <$> replicateM size next
 
