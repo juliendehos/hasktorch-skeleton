@@ -26,13 +26,23 @@ main = do
     let trainD = dataFromRows [] . foldr (uncurry mkDataRow) [] . _data $ trainData
 -}
 
-    let cars =  dataFromUrl "https://vega.github.io/vega-datasets/data/cars.json" []
+    -- let cars =  dataFromUrl "https://vega.github.io/vega-datasets/data/cars.json" []
+
+
+    let cars = dataFromRows [ Parse [ ( "Horsepower", FoNumber ) ] ]
+                    . dataRow [ ( "Name", Str "chevrolet" )
+                              , ( "Miles_per_Gallon", Number 30 ) 
+                              , ( "Horsepower", Number 130 ) ]
+                    . dataRow [ ( "Name", Str "malibu" )
+                              , ( "Miles_per_Gallon", Number 3 ) 
+                              , ( "Horsepower", Number 30 ) ]
+
         enc = encoding
                 . position X [ PName "Horsepower", PmType Quantitative ]
-                . position Y [ PName "Miles_per_Gallon", PmType Quantitative, PTitle "Miles per Gallon" ]
-                . color [ MName "Origin" ]
-        bkg = background "rgba(0, 0, 0, 0.05)"
-    toHtmlFile "out.html" $ toVegaLite [ bkg, cars, mark Circle [MTooltip TTEncoding], enc [] ]
+                . position Y [ PName "Miles_per_Gallon"
+                             , PmType Quantitative
+                             , PTitle "Miles per Gallon" ]
+    toHtmlFile "out.html" $ toVegaLite [ cars [], mark Circle [MTooltip TTEncoding], enc [] ]
 
 
 
